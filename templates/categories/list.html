@@ -2,9 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Praduct  List </title>
 </head>
 <body>
+        <h1>
+            Bu  Paje  List  Page  Dilmurod
+        </h1>
 
+        {% for  i  in  category_list %}
+
+            <p>i.category_name</p>
+            <h1>.category_logo</h1>
+
+        {% endfor %}
+
+
+        {% block content %}
+
+        {% endblock %}
 </body>
 </html>
