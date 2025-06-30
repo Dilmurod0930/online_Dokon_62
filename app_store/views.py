@@ -17,3 +17,4 @@ class CategotyCreateView(CreateView):
     model = Category
     fields = '__all__'
     template_name = 'categories/add.html'
+    success_url = 'category-list'

@@ -5,7 +5,7 @@ from django.db import models
 # Create your models here.
 class  Category(models.Model):
     category_name = models.CharField(max_length=100)
-    category_logo = models.ImageField(upload_to='images/categories', default='images/categories/default.jpg')
+    category_logo = models.ImageField(upload_to='images/')
 
     def __str__(self):
         return self.category_name
@@ -21,7 +21,7 @@ class Product(models.Model):
     product_name = models.CharField(max_length=100)
     product_description = models.TextField()
     product_price = models.FloatField(validators=[MinValueValidator(0.0)])
-    product_image = models.ImageField(upload_to='images/products', default='images/products/default.jpg')
+    product_image = models.ImageField(upload_to='images/')
     product_category = models.ForeignKey(Category, on_delete=models.CASCADE)
     product_owner = models.ForeignKey(User, on_delete=models.CASCADE)
     view_count = models.IntegerField(default=0)
