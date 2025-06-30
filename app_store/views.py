@@ -18,3 +18,16 @@ class CategotyCreateView(CreateView):
     fields = '__all__'
     template_name = 'categories/add.html'
     success_url = 'category-list'
+
+
+
+
+"""Praduct  Start"""
+
+class  ProductListView(ListView):
+    model = Product
+    context_object_name = 'product_list'
+    template_name = 'products/praduct_list.html'
+    paginate_by = 10
+
+
