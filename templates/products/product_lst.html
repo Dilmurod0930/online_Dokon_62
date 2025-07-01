@@ -1,60 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Product List</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <title>Product Showcase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- AOS CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-    <style>
-        body {
-            background: linear-gradient(to right, #f8f9fa, #e0eafc);
-            padding: 30px;
-            font-family: 'Segoe UI', sans-serif;
-        }
-        .card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            transition: transform 0.2s;
-        }
-        .card:hover {
-            transform: scale(1.02);
-        }
-        .card img {
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
-            height: 200px;
-            object-fit: cover;
-        }
-    </style>
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #e0e5ec;
+      color: #333;
+      padding-top: 60px;
+    }
+    .navbar {
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .filter-bar {
+      padding: 12px;
+      margin-bottom: 30px;
+    }
+    .filter-bar .form-control {
+      padding: 8px 16px;
+    }
+    .card {
+      border-radius: 16px;
+      background: #e0e5ec;
+      box-shadow: 6px 6px 12px #a3b1c6,
+                  -6px -6px 12px #ffffff;
+      transition: all .3s ease;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 3px 3px 8px #a3b1c6,
+                  -3px -3px 8px #ffffff;
+    }
+    .card-img-top {
+      height: 160px;
+      object-fit: cover;
+    }
+    .price-badge {
+      position: absolute;
+      top: 12px; right: 12px;
+      background: #ff6b6b;
+      color: #fff;
+      padding: .3rem .8rem;
+      font-size: .85rem;
+      border-radius: 50px;
+      font-weight: 700;
+    }
+    .card-body {
+      padding: 1.2rem;
+      text-align: center;
+    }
+    .card-body h5 {
+      margin-bottom: .5rem;
+      font-size: 1rem;
+    }
+    .card-body p {
+      font-size: .8rem;
+      color: #777;
+    }
+    .btn-group .btn {
+      padding: .4rem 1.2rem;
+      font-size: .85rem;
+      border-radius: 50px;
+    }
+    footer {
+      padding: 20px 0;
+      margin-top: 40px;
+      background: #ffffff;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
+
+  <!-- Navbar -->
+  <nav class="navbar fixed-top navbar-expand-lg">
     <div class="container">
-        <h1 class="text-center mb-5 text-primary">📦 Kategoriyalar Ro'yxati</h1>
+      <a class="navbar-brand" href="{% url 'base' %}">Dilmurod Store</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item"><a class="nav-link" href="{% url 'add_product' %}">+ Add Product</a></li>
 
-        <div class="row">
-            {% for i in product_list %}
-                <div class="col-md-4">
-                    <div class="card">
-                        <img src="{{ i.product_image.url }}" alt="{{ i.product_name }}" class="card-img-top">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">{{ i.product_name }}</h5>
-                            <h5 class="card-title">{{ i.product_price }}</h5>
-                            <h5 class="card-title">{{ i.product_category }}</h5>
-                            <h5 class="card-title">{{ i.view_count }}</h5>
-                            <h5 class="card-title">{{ i.product_description }}</h5>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-
-        {% block content %}
-        {% endblock %}
+        </ul>
+      </div>
     </div>
+  </nav>
+
+  <!-- Main container (max-width reduced) -->
+  <div class="container" style="max-width: 800px;">
+
+    <!-- Products Grid -->
+    <div class="row g-3">
+      {% for i in product_list %}
+        <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-duration="700">
+          <div class="card position-relative">
+            <div class="price-badge">${{ i.product_price }}</div>
+            <img src="{{ i.product_image.url }}" class="card-img-top" alt="{{ i.product_name }}">
+            <div class="card-body">
+              <h5>{{ i.product_name }}</h5>
+              <p>{{ i.product_description|truncatechars:80 }}</p>
+              <div class="btn-group">
+                <a href="#" class="btn btn-outline-secondary btn-sm">View</a>
+                <a href="#" class="btn btn-primary btn-sm">Buy</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container" style="max-width: 800px;">
+      <p>&copy; 2025 Dilmurod Store. Barcha huquqlar himoyalangan.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
 </body>
 </html>
