@@ -43,7 +43,7 @@ def product_create(request):
             product = form.save(commit=False)
             product.full_clean()
             product.save()
-            return redirect(reverse_lazy('product_lst'))
+            return redirect('product_lst')
         return render(request, 'products/product_add.html', {'form': form})
     form = ProductForm()
     return render(request, 'products/product_add.html', {'form': form})
